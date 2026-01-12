@@ -9,12 +9,12 @@ import Image from 'next/image';
 
 // TODO: Replace this path with your actual profile image
 // Place your image in the public folder and update the path below
-const PROFILE_IMAGE_PATH = '/profile.jpg'; // Change this to your image path
+const PROFILE_IMAGE_PATH = '/dp.png'; // Change this to your image path
 
 // About Me Section - Update your information here
 const ABOUT_ME = {
-  name: 'Your Name',
-  title: 'Software Developer',
+  name: 'Heng Sheng Yao Dan',
+  title: '',
   description: 'I am a passionate software developer with experience in building web applications and working with various technologies. I enjoy solving complex problems and creating efficient solutions.',
 };
 
@@ -24,18 +24,27 @@ const PROGRAMMING_LANGUAGES = [
   'TypeScript',
   'Python',
   'Java',
-  'C++',
+  'C',
   'HTML/CSS',
+  'Kotlin'
+
 ];
 
 // Software Tools - Add or remove tools as needed
 const SOFTWARE_TOOLS = [
   'MongoDB',
   'MySQL',
+  'Postgres',
   'Git',
   'Docker',
   'Node.js',
   'React',
+  'Next.js',
+  'Figma',
+  'Cisco Packet Tracer',
+  'Pandas',
+  'Jupyter Notebook',
+  'NumPy',
 ];
 
 // School Projects - Update with your actual projects
@@ -68,10 +77,32 @@ const SCHOOL_PROJECTS = [
 
 // Contact Information - Update with your actual contact details
 const CONTACTS = {
-  email: 'your.email@example.com', // TODO: Update your email
-  phone: '+1 (555) 123-4567', // TODO: Update your phone number
-  linkedin: 'https://linkedin.com/in/yourprofile', // TODO: Update your LinkedIn URL
+  email: 'hengsydan@gmail.com', // TODO: Update your email
+  phone: '93376481', // TODO: Update your phone number
+  linkedin: 'https://sg.linkedin.com/in/dan-heng-15879b361', // TODO: Update your LinkedIn URL
 };
+
+// Education History - Update with your actual schools
+const EDUCATION = [
+  {
+    institution: 'Singapore Institute of Technology (SIT)',
+    degree: 'Bachelor of Computing Science (Honours)',
+    years: '2024 - Present',
+    logos: ['/sit-logo.png', '/uog-logo.png'], // Add your logo paths here
+  },
+  {
+    institution: 'Nanyang Polytechnic (NYP)',
+    degree: 'Diploma in Mechatronics Engineering',
+    years: '2019 - 2022',
+    logos: ['/nyp-logo.png'],
+  },
+  {
+    institution: 'Institute of Technical Education (ITE)',
+    degree: 'Higher Nitec Mechatronics Engineering',
+    years: '2017 - 2018',
+    logos: ['/ite-logo.png'],
+  },
+];
 
 // ============================================
 // END OF CONFIGURATION SECTION
@@ -85,11 +116,11 @@ export default function Home() {
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft') {
-        setCurrentProjectIndex((prev) => 
+        setCurrentProjectIndex((prev) =>
           prev === 0 ? SCHOOL_PROJECTS.length - 1 : prev - 1
         );
       } else if (e.key === 'ArrowRight') {
-        setCurrentProjectIndex((prev) => 
+        setCurrentProjectIndex((prev) =>
           prev === SCHOOL_PROJECTS.length - 1 ? 0 : prev + 1
         );
       }
@@ -118,7 +149,7 @@ export default function Home() {
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="flex items-center justify-between h-16">
             <div className="text-xl font-bold text-white cursor-pointer hover:text-emerald-50 transition-colors" onClick={() => scrollToSection('home')}>
-              {ABOUT_ME.name}
+              <h1>Dan's Portfolio</h1>
             </div>
             <div className="flex items-center gap-6">
               <button
@@ -132,6 +163,12 @@ export default function Home() {
                 className="text-white hover:text-emerald-50 font-medium transition-colors px-3 py-2 rounded-lg hover:bg-emerald-900"
               >
                 Languages
+              </button>
+              <button
+                onClick={() => scrollToSection('education')}
+                className="text-white hover:text-emerald-50 font-medium transition-colors px-3 py-2 rounded-lg hover:bg-emerald-900"
+              >
+                Education
               </button>
               <button
                 onClick={() => scrollToSection('tools')}
@@ -157,43 +194,76 @@ export default function Home() {
       </nav>
 
       <main className="container mx-auto px-4 py-6 max-w-6xl">
-        {/* Header Section with Profile Image */}
-        <section id="home" className="text-center mb-8 animate-fade-in pt-4">
-          {/* Profile Image - Circle */}
-          {/* TODO: To change your profile image:
-              1. Place your image file (e.g., profile.jpg) in the public folder
-              2. Update PROFILE_IMAGE_PATH at the top of this file with the filename
-              Example: '/profile.jpg' or '/images/profile.png' */}
-          <div className="flex justify-center mb-4">
-            <div className="relative w-40 h-40 rounded-full overflow-hidden border-4 border-white shadow-2xl bg-emerald-50 flex items-center justify-center ring-4 ring-emerald-100 hover:scale-105 transition-transform duration-300">
+        {/* Hero Section: Profile Image and Info side-by-side */}
+        <section id="home" className="flex flex-col md:flex-row items-center md:items-start gap-10 mb-12 animate-fade-in pt-8">
+          {/* Left: Profile Image (1/3 width on desktop) */}
+          <div className="md:w-1/4 flex justify-center md:justify-start">
+            <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden border-4 border-white shadow-2xl bg-emerald-50 flex items-center justify-center ring-4 ring-emerald-100 hover:scale-105 transition-transform duration-300">
               <Image
                 src={PROFILE_IMAGE_PATH}
                 alt="Profile"
-                width={160}
-                height={160}
+                width={256}
+                height={256}
                 className="object-cover rounded-full"
                 priority
               />
             </div>
           </div>
-          
-          <h1 className="text-5xl font-bold text-emerald-900 mb-2 tracking-tight leading-tight">
-            {ABOUT_ME.name}
-          </h1>
-          <p className="text-xl text-emerald-700 font-medium tracking-wide">
-            {ABOUT_ME.title}
-          </p>
+
+          {/* Right: Name and About (3/4 width on desktop) */}
+          <div className="md:w-3/4 text-center md:text-left">
+            <h1 className="text-5xl md:text-6xl font-bold text-emerald-900 mb-6 tracking-tight leading-tight">
+              {ABOUT_ME.name}
+            </h1>
+
+            {/* About Me content nested here for the side-by-side layout */}
+            <div id="about" className="scroll-mt-24">
+              <p className="text-gray-800 leading-relaxed text-xl font-normal max-w-2xl">
+                {ABOUT_ME.description}
+              </p>
+            </div>
+          </div>
         </section>
 
-        {/* About Me Section */}
-        <section id="about" className="mb-8 bg-white rounded-2xl shadow-xl border-2 border-emerald-400 p-6 hover:shadow-2xl transition-shadow duration-300 scroll-mt-20">
-          <h2 className="text-3xl font-semibold text-emerald-900 mb-4 flex items-center gap-3 tracking-tight">
+        {/* Education Section */}
+        <section id="education" className="mb-8 bg-white rounded-2xl shadow-xl border-2 border-emerald-400 p-6 hover:shadow-2xl transition-shadow duration-300 scroll-mt-20">
+          <h2 className="text-3xl font-semibold text-emerald-900 mb-6 flex items-center gap-3 tracking-tight">
             <span className="w-1 h-8 bg-emerald-600 rounded-full"></span>
-            About Me
+            Education
           </h2>
-          <p className="text-gray-800 leading-relaxed text-lg font-normal">
-            {ABOUT_ME.description}
-          </p>
+          <div className="space-y-6">
+            {EDUCATION.map((edu, index) => (
+              <div key={index} className="flex flex-col md:flex-row gap-6 p-4 rounded-xl bg-emerald-50 border border-emerald-200 hover:border-emerald-400 transition-all duration-300">
+                <div className="flex flex-wrap gap-4">
+                  {edu.logos?.map((logo, logoIndex) => (
+                    <div key={logoIndex} className="flex-shrink-0 w-20 h-20 flex items-center justify-center">
+                      <div className="relative w-full h-full">
+                        <Image
+                          src={logo}
+                          alt={`${edu.institution} logo ${logoIndex + 1}`}
+                          fill
+                          className="object-contain"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex-grow">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-1">
+                    <h3 className="text-xl font-bold text-emerald-900 tracking-tight">
+                      {edu.institution}
+                    </h3>
+                    <span className="px-3 py-1 bg-emerald-600 text-white rounded-full text-xs font-bold inline-block w-fit">
+                      {edu.years}
+                    </span>
+                  </div>
+                  <p className="text-emerald-800 font-semibold text-lg">
+                    {edu.degree}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
         </section>
 
         {/* Skills Section - Combined Languages and Tools */}
@@ -247,7 +317,7 @@ export default function Home() {
             <span className="inline-block w-2 h-2 bg-emerald-600 rounded-full animate-pulse"></span>
             Use arrow keys (← →) to navigate between projects
           </p>
-          
+
           {/* Project Card */}
           <div className="border-2 border-emerald-500 rounded-xl p-6 bg-emerald-50 hover:border-emerald-600 transition-all duration-300 hover:shadow-xl">
             <h3 className="text-2xl font-semibold text-emerald-900 mb-3 tracking-tight">
@@ -266,11 +336,11 @@ export default function Home() {
                 </span>
               ))}
             </div>
-            
+
             {/* Navigation Indicators */}
             <div className="flex items-center justify-between mt-4 pt-4 border-t border-emerald-400">
               <button
-                onClick={() => setCurrentProjectIndex((prev) => 
+                onClick={() => setCurrentProjectIndex((prev) =>
                   prev === 0 ? SCHOOL_PROJECTS.length - 1 : prev - 1
                 )}
                 className="px-5 py-2 bg-emerald-100 text-emerald-800 rounded-lg hover:bg-emerald-200 transition-all duration-200 font-semibold shadow-md hover:shadow-lg border border-emerald-400"
@@ -281,7 +351,7 @@ export default function Home() {
                 {currentProjectIndex + 1} / {SCHOOL_PROJECTS.length}
               </span>
               <button
-                onClick={() => setCurrentProjectIndex((prev) => 
+                onClick={() => setCurrentProjectIndex((prev) =>
                   prev === SCHOOL_PROJECTS.length - 1 ? 0 : prev + 1
                 )}
                 className="px-5 py-2 bg-emerald-100 text-emerald-800 rounded-lg hover:bg-emerald-200 transition-all duration-200 font-semibold shadow-md hover:shadow-lg border border-emerald-400"
@@ -290,7 +360,7 @@ export default function Home() {
               </button>
             </div>
           </div>
-          
+
           {/* TODO: To update projects, modify SCHOOL_PROJECTS array at the top */}
         </section>
 
@@ -319,7 +389,7 @@ export default function Home() {
                 </a>
               </div>
             </div>
-            
+
             {/* Phone */}
             {/* TODO: To update phone number, modify CONTACTS.phone at the top */}
             <div className="flex items-center gap-4 p-4 rounded-xl bg-emerald-50 hover:shadow-lg transition-all duration-200 border border-emerald-400">
@@ -338,13 +408,13 @@ export default function Home() {
                 </a>
               </div>
             </div>
-            
+
             {/* LinkedIn */}
             {/* TODO: To update LinkedIn, modify CONTACTS.linkedin at the top */}
             <div className="flex items-center gap-4 p-4 rounded-xl bg-emerald-50 hover:shadow-lg transition-all duration-200 border border-emerald-400">
               <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center text-white shadow-lg flex-shrink-0">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
                 </svg>
               </div>
               <div className="min-w-0">
