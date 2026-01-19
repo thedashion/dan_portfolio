@@ -7,102 +7,70 @@ import Image from 'next/image';
 // CONFIGURATION SECTION - UPDATE YOUR INFO HERE
 // ============================================
 
-// TODO: Replace this path with your actual profile image
-// Place your image in the public folder and update the path below
-const PROFILE_IMAGE_PATH = '/dp.png'; // Change this to your image path
+// TODO: Update your profile picture by placing it in the 'public' folder 
+// and updating the filename below (e.g., '/my-photo.png')
+const PROFILE_IMAGE_PATH = '/dp.png';
 
 // About Me Section - Update your information here
 const ABOUT_ME = {
   name: 'Heng Sheng Yao Dan',
   title: '',
-  description: 'I am a passionate software developer with experience in building web applications and working with various technologies. I enjoy solving complex problems and creating efficient solutions.',
+  description: 'Computer Science undergraduate exploring software development to solve real-world problems. Willing to learn and adaptable to new technologies',
 };
 
 // Programming Languages - Add or remove languages as needed
-const PROGRAMMING_LANGUAGES = [
-  'JavaScript',
-  'TypeScript',
-  'Python',
-  'Java',
-  'C',
-  'HTML/CSS',
-  'Kotlin'
 
-];
-
-// Software Tools - Add or remove tools as needed
-const SOFTWARE_TOOLS = [
-  'MongoDB',
-  'MySQL',
-  'Postgres',
-  'Git',
-  'Docker',
-  'Node.js',
-  'React',
-  'Next.js',
-  'Figma',
-  'Cisco Packet Tracer',
-  'Pandas',
-  'Jupyter Notebook',
-  'NumPy',
-];
 
 // School Projects - Update with your actual projects
-const SCHOOL_PROJECTS = [
+// Projects Catalogue
+const PROJECTS = [
   {
     id: 1,
     title: 'E-Commerce Platform',
     description: 'A full-stack e-commerce application with user authentication and payment integration.',
-    technologies: ['React', 'Node.js', 'MongoDB'],
+    detailedDescription: 'This comprehensive e-commerce solution features a robust product management system, secure user authentication using JWT, and seamless payment gateway integration. It includes a responsive storefront for customers and an admin dashboard for inventory management.',
+    technologies: ['React', 'Node.js', 'MongoDB', 'Redux', 'Stripe'],
+    /* 
+      HOW TO ADD IMAGES:
+      1. Place your project images in the 'public' folder of this project.
+      2. Update the array below with the filename (e.g., '/my-project.png').
+      3. The first image in the array will be used as the card's thumbnail.
+    */
+    images: ['/project1-thumb.jpg', '/project1-detail1.jpg', '/project1-detail2.jpg'],
   },
   {
     id: 2,
     title: 'Task Management App',
     description: 'A collaborative task management tool with real-time updates and team collaboration features.',
-    technologies: ['TypeScript', 'Express', 'MySQL'],
+    detailedDescription: 'Built for remote teams, this application allows users to create, assign, and track tasks in real-time. It leverages WebSockets for instant updates and includes features like drag-and-drop kanban boards and team chat.',
+    technologies: ['TypeScript', 'Express', 'MySQL', 'Socket.io'],
+    images: ['/project2-thumb.jpg', '/project2-detail.jpg'], // TODO: Add your image paths here
   },
   {
     id: 3,
     title: 'Weather Dashboard',
     description: 'A responsive weather dashboard that displays current conditions and forecasts.',
-    technologies: ['JavaScript', 'API Integration'],
+    detailedDescription: 'This application consumes third-party weather APIs to provide accurate local forecasts. It features dynamic background changing based on weather conditions and geolocation support to automatically detect user location.',
+    technologies: ['JavaScript', 'OpenWeatherMap API', 'HTML5/CSS3'],
+    images: ['/project3-thumb.jpg'], // TODO: Add your image paths here
   },
   {
     id: 4,
     title: 'Student Portal',
     description: 'A portal for students to manage courses, assignments, and grades.',
-    technologies: ['React', 'Python', 'PostgreSQL'],
+    detailedDescription: 'An academic management system designed to streamline communication between students and faculty. Students can access course materials, submit assignments, and view grades, while professors can manage course content and improved grading workflows.',
+    technologies: ['React', 'Python', 'PostgreSQL', 'Django'],
+    images: ['/project4-thumb.jpg'], // TODO: Add your image paths here
   },
 ];
+
 
 // Contact Information - Update with your actual contact details
 const CONTACTS = {
   email: 'hengsydan@gmail.com', // TODO: Update your email
   phone: '93376481', // TODO: Update your phone number
-  linkedin: 'https://sg.linkedin.com/in/dan-heng-15879b361', // TODO: Update your LinkedIn URL
+  linkedin: 'https://www.linkedin.com/in/heng-sheng-yao-dan', // TODO: Update your LinkedIn URL
 };
-
-// Education History - Update with your actual schools
-const EDUCATION = [
-  {
-    institution: 'Singapore Institute of Technology (SIT)',
-    degree: 'Bachelor of Computing Science (Honours)',
-    years: '2024 - Present',
-    logos: ['/sit-logo.png', '/uog-logo.png'], // Add your logo paths here
-  },
-  {
-    institution: 'Nanyang Polytechnic (NYP)',
-    degree: 'Diploma in Mechatronics Engineering',
-    years: '2019 - 2022',
-    logos: ['/nyp-logo.png'],
-  },
-  {
-    institution: 'Institute of Technical Education (ITE)',
-    degree: 'Higher Nitec Mechatronics Engineering',
-    years: '2017 - 2018',
-    logos: ['/ite-logo.png'],
-  },
-];
 
 // ============================================
 // END OF CONFIGURATION SECTION
@@ -111,26 +79,54 @@ const EDUCATION = [
 export default function Home() {
   // State for managing the current project in the dashboard
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Resume URL - Replace 'your-resume.pdf' with your actual file in the public folder or a hosted link
+  const RESUME_URL = '/resume.pdf';
 
   // Handle arrow key navigation for projects
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') {
-        setCurrentProjectIndex((prev) =>
-          prev === 0 ? SCHOOL_PROJECTS.length - 1 : prev - 1
-        );
-      } else if (e.key === 'ArrowRight') {
-        setCurrentProjectIndex((prev) =>
-          prev === SCHOOL_PROJECTS.length - 1 ? 0 : prev + 1
-        );
+      if (!isModalOpen) {
+        if (e.key === 'ArrowLeft') {
+          setCurrentProjectIndex((prev) =>
+            prev === 0 ? PROJECTS.length - 1 : prev - 1
+          );
+        } else if (e.key === 'ArrowRight') {
+          setCurrentProjectIndex((prev) =>
+            prev === PROJECTS.length - 1 ? 0 : prev + 1
+          );
+        }
+      } else {
+        // Modal navigation
+        const images = PROJECTS[currentProjectIndex].images || [];
+        if (images.length === 0) return;
+
+        if (e.key === 'ArrowLeft') {
+          setCurrentImageIndex((prev) =>
+            prev === 0 ? images.length - 1 : prev - 1
+          );
+        } else if (e.key === 'ArrowRight') {
+          setCurrentImageIndex((prev) =>
+            prev === images.length - 1 ? 0 : prev + 1
+          );
+        } else if (e.key === 'Escape') {
+          setIsModalOpen(false);
+        }
       }
     };
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, []);
+  }, [isModalOpen, currentProjectIndex]);
 
-  const currentProject = SCHOOL_PROJECTS[currentProjectIndex];
+  const currentProject = PROJECTS[currentProjectIndex];
+
+  // Reset image index when project changes
+  useEffect(() => {
+    setCurrentImageIndex(0);
+  }, [currentProjectIndex]);
 
   // Smooth scroll function for navigation
   const scrollToSection = (id: string) => {
@@ -140,250 +136,264 @@ export default function Home() {
     }
   };
 
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      setIsModalOpen(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation Bar */}
-      {/* TODO: To customize navigation, modify the nav items below */}
-      {/* Using emerald-800 background for WCAG AA contrast ratio (7.2:1 with white text) */}
-      <nav className="sticky top-0 z-50 bg-emerald-800 border-b-2 border-emerald-900 shadow-md">
+      {/* Refined Navigation Bar */}
+      <header className="sticky top-0 z-50 bg-emerald-900/95 backdrop-blur-md border-b border-emerald-800/50 shadow-lg">
         <div className="container mx-auto px-4 max-w-6xl">
-          <div className="flex items-center justify-between h-16">
-            <div className="text-xl font-bold text-white cursor-pointer hover:text-emerald-50 transition-colors" onClick={() => scrollToSection('home')}>
-              <h1>Dan's Portfolio</h1>
-            </div>
-            <div className="flex items-center gap-6">
+          <div className="flex flex-col sm:flex-row items-center justify-between py-3 sm:h-16 gap-3 sm:gap-0">
+            <h1
+              className="text-lg sm:text-xl font-medium text-white tracking-tight cursor-pointer hover:text-emerald-200 transition-colors whitespace-nowrap"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            >
+              {ABOUT_ME.name}
+            </h1>
+
+            <nav className="flex items-center justify-between w-full sm:w-auto px-4 sm:px-0 gap-4 sm:gap-6 md:gap-10">
               <button
-                onClick={() => scrollToSection('about')}
-                className="text-white hover:text-emerald-50 font-medium transition-colors px-3 py-2 rounded-lg hover:bg-emerald-900"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className="text-sm sm:text-base font-bold text-emerald-50 hover:text-white hover:bg-white/10 px-2 sm:px-4 py-2 rounded-lg transition-all"
               >
                 About
               </button>
               <button
-                onClick={() => scrollToSection('languages')}
-                className="text-white hover:text-emerald-50 font-medium transition-colors px-3 py-2 rounded-lg hover:bg-emerald-900"
-              >
-                Languages
-              </button>
-              <button
-                onClick={() => scrollToSection('education')}
-                className="text-white hover:text-emerald-50 font-medium transition-colors px-3 py-2 rounded-lg hover:bg-emerald-900"
-              >
-                Education
-              </button>
-              <button
-                onClick={() => scrollToSection('tools')}
-                className="text-white hover:text-emerald-50 font-medium transition-colors px-3 py-2 rounded-lg hover:bg-emerald-900"
-              >
-                Tools
-              </button>
-              <button
                 onClick={() => scrollToSection('projects')}
-                className="text-white hover:text-emerald-50 font-medium transition-colors px-3 py-2 rounded-lg hover:bg-emerald-900"
+                className="text-sm sm:text-base font-bold text-emerald-50 hover:text-white hover:bg-white/10 px-2 sm:px-4 py-2 rounded-lg transition-all"
               >
                 Projects
               </button>
               <button
                 onClick={() => scrollToSection('contact')}
-                className="text-white hover:text-emerald-50 font-medium transition-colors px-3 py-2 rounded-lg hover:bg-emerald-900"
+                className="text-sm sm:text-base font-bold text-emerald-50 hover:text-white hover:bg-white/10 px-2 sm:px-4 py-2 rounded-lg transition-all"
               >
                 Contact
               </button>
-            </div>
+            </nav>
           </div>
         </div>
-      </nav>
+      </header>
 
-      <main className="container mx-auto px-4 py-6 max-w-6xl">
-        {/* Hero Section: Profile Image and Info side-by-side */}
-        <section id="home" className="flex flex-col md:flex-row items-center md:items-start gap-10 mb-12 animate-fade-in pt-8">
-          {/* Left: Profile Image (1/3 width on desktop) */}
-          <div className="md:w-1/4 flex justify-center md:justify-start">
-            <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden border-4 border-white shadow-2xl bg-emerald-50 flex items-center justify-center ring-4 ring-emerald-100 hover:scale-105 transition-transform duration-300">
+      <main className="container mx-auto px-4 py-8 sm:py-12 max-w-6xl">
+        {/* Hero Section: Info and Profile Image side-by-side */}
+        <section id="home" className="flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12 mb-16 animate-fade-in pt-4 sm:pt-8">
+          {/* Left: Name and About (2/3 width on desktop) */}
+          <div className="w-full md:w-2/3 text-center md:text-left order-2 md:order-1">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-emerald-900 mb-6 tracking-tight leading-tight">
+              Welcome to my portfolio
+            </h2>
+
+            <div id="about" className="scroll-mt-24">
+              <p className="text-gray-700 leading-relaxed text-lg sm:text-xl font-normal max-w-2xl mb-8 mx-auto md:mx-0">
+                {ABOUT_ME.description}
+              </p>
+
+              <a
+                href={RESUME_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-emerald-700 text-white hover:bg-emerald-800 font-bold transition-all px-8 py-3 rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+              >
+                <span>Download Resume</span>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          {/* Right: Profile Image (1/3 width on desktop) */}
+          <div className="md:w-1/3 flex justify-center md:justify-end order-1 md:order-2">
+            <div className="relative w-48 h-48 md:w-72 md:h-72 rounded-full overflow-hidden border-4 border-white shadow-2xl bg-emerald-50 flex items-center justify-center ring-4 ring-emerald-100 hover:scale-105 transition-transform duration-300">
               <Image
                 src={PROFILE_IMAGE_PATH}
                 alt="Profile"
-                width={256}
-                height={256}
+                width={288}
+                height={288}
                 className="object-cover rounded-full"
                 priority
               />
             </div>
           </div>
-
-          {/* Right: Name and About (3/4 width on desktop) */}
-          <div className="md:w-3/4 text-center md:text-left">
-            <h1 className="text-5xl md:text-6xl font-bold text-emerald-900 mb-6 tracking-tight leading-tight">
-              {ABOUT_ME.name}
-            </h1>
-
-            {/* About Me content nested here for the side-by-side layout */}
-            <div id="about" className="scroll-mt-24">
-              <p className="text-gray-800 leading-relaxed text-xl font-normal max-w-2xl">
-                {ABOUT_ME.description}
-              </p>
-            </div>
-          </div>
         </section>
 
-        {/* Education Section */}
-        <section id="education" className="mb-8 bg-white rounded-2xl shadow-xl border-2 border-emerald-400 p-6 hover:shadow-2xl transition-shadow duration-300 scroll-mt-20">
-          <h2 className="text-3xl font-semibold text-emerald-900 mb-6 flex items-center gap-3 tracking-tight">
+
+
+        {/* Projects Grid Section */}
+        <section id="projects" className="mb-12 scroll-mt-20">
+          <h2 className="text-3xl font-bold text-emerald-900 mb-8 flex items-center gap-3 tracking-tight">
             <span className="w-1 h-8 bg-emerald-600 rounded-full"></span>
-            Education
+            Projects
           </h2>
-          <div className="space-y-6">
-            {EDUCATION.map((edu, index) => (
-              <div key={index} className="flex flex-col md:flex-row gap-6 p-4 rounded-xl bg-emerald-50 border border-emerald-200 hover:border-emerald-400 transition-all duration-300">
-                <div className="flex flex-wrap gap-4">
-                  {edu.logos?.map((logo, logoIndex) => (
-                    <div key={logoIndex} className="flex-shrink-0 w-20 h-20 flex items-center justify-center">
-                      <div className="relative w-full h-full">
-                        <Image
-                          src={logo}
-                          alt={`${edu.institution} logo ${logoIndex + 1}`}
-                          fill
-                          className="object-contain"
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div className="flex-grow">
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-1">
-                    <h3 className="text-xl font-bold text-emerald-900 tracking-tight">
-                      {edu.institution}
-                    </h3>
-                    <span className="px-3 py-1 bg-emerald-600 text-white rounded-full text-xs font-bold inline-block w-fit">
-                      {edu.years}
-                    </span>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {PROJECTS.map((project, index) => (
+              <div
+                key={project.id}
+                onClick={() => {
+                  setCurrentProjectIndex(index);
+                  setIsModalOpen(true);
+                }}
+                className="p-6 bg-white border border-gray-100 rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] transition-all cursor-pointer flex flex-col gap-3 group border-l-4 border-l-transparent hover:border-l-emerald-500"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-emerald-50 rounded-lg text-emerald-600 group-hover:bg-emerald-100 transition-colors">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                    </svg>
                   </div>
-                  <p className="text-emerald-800 font-semibold text-lg">
-                    {edu.degree}
-                  </p>
+                  <h3 className="text-lg font-bold text-gray-900 group-hover:text-emerald-800 transition-colors">
+                    {project.title}
+                  </h3>
+                </div>
+
+                <p className="text-gray-600 text-sm leading-relaxed line-clamp-2">
+                  {project.description}
+                </p>
+
+                <div className="mt-auto flex flex-wrap gap-2 pt-2">
+                  {project.technologies.slice(0, 3).map((tech) => (
+                    <span
+                      key={tech}
+                      className="px-2.5 py-1 bg-gray-50 text-gray-500 text-xs font-medium rounded-md border border-gray-100"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                  {project.technologies.length > 3 && (
+                    <span className="text-xs text-gray-400 self-center">
+                      +{project.technologies.length - 3} more
+                    </span>
+                  )}
                 </div>
               </div>
             ))}
           </div>
-        </section>
 
-        {/* Skills Section - Combined Languages and Tools */}
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
-          {/* Programming Languages */}
-          <section id="languages" className="bg-white rounded-2xl shadow-xl border-2 border-emerald-400 p-6 hover:shadow-2xl transition-shadow duration-300 scroll-mt-20">
-            <h2 className="text-2xl font-semibold text-emerald-900 mb-4 flex items-center gap-3 tracking-tight">
-              <span className="w-1 h-8 bg-emerald-600 rounded-full"></span>
-              Programming Languages
-            </h2>
-            <div className="flex flex-wrap gap-2">
-              {/* TODO: To update programming languages, modify PROGRAMMING_LANGUAGES array at the top */}
-              {PROGRAMMING_LANGUAGES.map((lang) => (
-                <span
-                  key={lang}
-                  className="px-4 py-2 bg-emerald-600 text-white rounded-full text-sm font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 cursor-default"
+          {/* Project Details Modal */}
+          {isModalOpen && (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-fade-in" onClick={closeModal}>
+              <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl flex flex-col relative animate-scale-in" onClick={(e) => e.stopPropagation()}>
+
+                {/* Close Button */}
+                <button
+                  onClick={() => setIsModalOpen(false)}
+                  className="absolute top-4 right-4 z-10 w-10 h-10 bg-white/80 rounded-full flex items-center justify-center text-emerald-900 hover:bg-emerald-100 transition-colors shadow-md"
                 >
-                  {lang}
-                </span>
-              ))}
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+
+                {/* Modal Content */}
+                <div className="flex flex-col md:flex-row h-full">
+
+                  {/* Left: Image Carousel (60%) */}
+                  <div className="md:w-3/5 bg-gray-100 relative min-h-[300px] md:min-h-[500px] flex items-center justify-center">
+                    {currentProject.images && currentProject.images.length > 0 ? (
+                      <div className="relative w-full h-full">
+                        <Image
+                          src={currentProject.images[currentImageIndex]}
+                          alt={`${currentProject.title} image ${currentImageIndex + 1}`}
+                          fill
+                          className="object-contain p-4"
+                        />
+
+                        {/* Image Navigation */}
+                        {currentProject.images.length > 1 && (
+                          <>
+                            <button
+                              onClick={() => setCurrentImageIndex(prev => prev === 0 ? currentProject.images!.length - 1 : prev - 1)}
+                              className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/50 hover:bg-white rounded-full flex items-center justify-center text-emerald-900 transition-all shadow-lg backdrop-blur-sm"
+                            >
+                              ←
+                            </button>
+                            <button
+                              onClick={() => setCurrentImageIndex(prev => prev === currentProject.images!.length - 1 ? 0 : prev + 1)}
+                              className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/50 hover:bg-white rounded-full flex items-center justify-center text-emerald-900 transition-all shadow-lg backdrop-blur-sm"
+                            >
+                              →
+                            </button>
+                            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                              {currentProject.images.map((_, idx) => (
+                                <button
+                                  key={idx}
+                                  onClick={() => setCurrentImageIndex(idx)}
+                                  className={`w-2 h-2 rounded-full transition-all ${idx === currentImageIndex ? 'bg-emerald-600 w-6' : 'bg-emerald-300'}`}
+                                />
+                              ))}
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="text-gray-400 flex flex-col items-center">
+                        <svg className="w-16 h-16 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                        <p>No images available</p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Right: Details (40%) */}
+                  <div className="md:w-2/5 p-8 flex flex-col overflow-y-auto max-h-[500px]">
+                    <h3 className="text-3xl font-bold text-emerald-900 mb-2 leading-tight">
+                      {currentProject.title}
+                    </h3>
+                    <div className="w-16 h-1 bg-emerald-500 rounded-full mb-6"></div>
+
+                    <div className="mb-6">
+                      <h4 className="text-sm font-bold text-emerald-600 uppercase tracking-wider mb-2">Description</h4>
+                      <p className="text-gray-700 leading-relaxed">
+                        {currentProject.detailedDescription || currentProject.description}
+                      </p>
+                    </div>
+
+                    <div className="mt-auto">
+                      <h4 className="text-sm font-bold text-emerald-600 uppercase tracking-wider mb-3">Technologies</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {currentProject.technologies.map((tech) => (
+                          <span
+                            key={tech}
+                            className="px-3 py-1.5 bg-emerald-100 text-emerald-800 rounded-md text-sm font-medium"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </section>
+          )}
 
-          {/* Software Tools */}
-          <section id="tools" className="bg-white rounded-2xl shadow-xl border-2 border-emerald-400 p-6 hover:shadow-2xl transition-shadow duration-300 scroll-mt-20">
-            <h2 className="text-2xl font-semibold text-emerald-900 mb-4 flex items-center gap-3 tracking-tight">
-              <span className="w-1 h-8 bg-emerald-600 rounded-full"></span>
-              Software Tools
-            </h2>
-            <div className="flex flex-wrap gap-2">
-              {/* TODO: To update software tools, modify SOFTWARE_TOOLS array at the top */}
-              {SOFTWARE_TOOLS.map((tool) => (
-                <span
-                  key={tool}
-                  className="px-4 py-2 bg-emerald-600 text-white rounded-full text-sm font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 cursor-default"
-                >
-                  {tool}
-                </span>
-              ))}
-            </div>
-          </section>
-        </div>
-
-        {/* Projects Dashboard Section */}
-        <section id="projects" className="mb-8 bg-white rounded-2xl shadow-xl border-2 border-emerald-400 p-6 hover:shadow-2xl transition-shadow duration-300 scroll-mt-20">
-          <h2 className="text-3xl font-semibold text-emerald-900 mb-3 flex items-center gap-3 tracking-tight">
-            <span className="w-1 h-8 bg-emerald-600 rounded-full"></span>
-            School Projects
-          </h2>
-          <p className="text-sm text-emerald-700 mb-4 ml-4 flex items-center gap-2 font-medium">
-            <span className="inline-block w-2 h-2 bg-emerald-600 rounded-full animate-pulse"></span>
-            Use arrow keys (← →) to navigate between projects
-          </p>
-
-          {/* Project Card */}
-          <div className="border-2 border-emerald-500 rounded-xl p-6 bg-emerald-50 hover:border-emerald-600 transition-all duration-300 hover:shadow-xl">
-            <h3 className="text-2xl font-semibold text-emerald-900 mb-3 tracking-tight">
-              {currentProject.title}
-            </h3>
-            <p className="text-gray-800 mb-4 text-lg leading-relaxed font-normal">
-              {currentProject.description}
-            </p>
-            <div className="flex flex-wrap gap-2 mb-4">
-              {currentProject.technologies.map((tech) => (
-                <span
-                  key={tech}
-                  className="px-4 py-1.5 bg-emerald-100 text-emerald-800 rounded-lg text-xs font-semibold border border-emerald-400"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-
-            {/* Navigation Indicators */}
-            <div className="flex items-center justify-between mt-4 pt-4 border-t border-emerald-400">
-              <button
-                onClick={() => setCurrentProjectIndex((prev) =>
-                  prev === 0 ? SCHOOL_PROJECTS.length - 1 : prev - 1
-                )}
-                className="px-5 py-2 bg-emerald-100 text-emerald-800 rounded-lg hover:bg-emerald-200 transition-all duration-200 font-semibold shadow-md hover:shadow-lg border border-emerald-400"
-              >
-                ← Previous
-              </button>
-              <span className="text-sm text-emerald-800 font-medium bg-emerald-100 px-4 py-2 rounded-full border border-emerald-400">
-                {currentProjectIndex + 1} / {SCHOOL_PROJECTS.length}
-              </span>
-              <button
-                onClick={() => setCurrentProjectIndex((prev) =>
-                  prev === SCHOOL_PROJECTS.length - 1 ? 0 : prev + 1
-                )}
-                className="px-5 py-2 bg-emerald-100 text-emerald-800 rounded-lg hover:bg-emerald-200 transition-all duration-200 font-semibold shadow-md hover:shadow-lg border border-emerald-400"
-              >
-                Next →
-              </button>
-            </div>
-          </div>
-
-          {/* TODO: To update projects, modify SCHOOL_PROJECTS array at the top */}
+          {/* TODO: To update projects, modify PROJECTS array at the top */}
         </section>
 
         {/* Contacts Section */}
-        <section id="contact" className="mb-8 bg-white rounded-2xl shadow-xl border-2 border-emerald-400 p-6 hover:shadow-2xl transition-shadow duration-300 scroll-mt-20">
-          <h2 className="text-3xl font-semibold text-emerald-900 mb-4 flex items-center gap-3 tracking-tight">
+        <section id="contact" className="mb-12 scroll-mt-20">
+          <h2 className="text-3xl font-bold text-emerald-900 mb-8 flex items-center gap-3 tracking-tight">
             <span className="w-1 h-8 bg-emerald-600 rounded-full"></span>
             Contact Me
           </h2>
-          <div className="space-y-3">
+          <div className="flex flex-col gap-2 max-w-xl">
             {/* Email */}
             {/* TODO: To update email, modify CONTACTS.email at the top */}
-            <div className="flex items-center gap-4 p-4 rounded-xl bg-emerald-50 hover:shadow-lg transition-all duration-200 border border-emerald-400">
-              <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center text-white shadow-lg flex-shrink-0">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <div className="flex items-center gap-4 p-3 rounded-xl transition-all duration-200">
+              <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shadow-sm flex-shrink-0">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
               </div>
               <div className="min-w-0">
-                <span className="text-emerald-700 font-medium block text-xs mb-0.5">Email</span>
+                <span className="text-emerald-600 font-bold block text-sm uppercase tracking-wider mb-0.5">Email</span>
                 <a
                   href={`mailto:${CONTACTS.email}`}
-                  className="text-emerald-800 hover:text-emerald-900 font-semibold transition-colors underline decoration-2 underline-offset-2 text-base break-all"
+                  className="text-gray-800 hover:text-emerald-700 font-medium transition-colors text-lg underline underline-offset-4 decoration-emerald-500/60 hover:decoration-emerald-600"
                 >
                   {CONTACTS.email}
                 </a>
@@ -392,17 +402,17 @@ export default function Home() {
 
             {/* Phone */}
             {/* TODO: To update phone number, modify CONTACTS.phone at the top */}
-            <div className="flex items-center gap-4 p-4 rounded-xl bg-emerald-50 hover:shadow-lg transition-all duration-200 border border-emerald-400">
-              <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center text-white shadow-lg flex-shrink-0">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <div className="flex items-center gap-4 p-3 rounded-xl transition-all duration-200">
+              <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shadow-sm flex-shrink-0">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
               </div>
               <div className="min-w-0">
-                <span className="text-emerald-700 font-medium block text-xs mb-0.5">Phone</span>
+                <span className="text-emerald-600 font-bold block text-sm uppercase tracking-wider mb-0.5">Phone</span>
                 <a
                   href={`tel:${CONTACTS.phone.replace(/\s/g, '')}`}
-                  className="text-emerald-800 hover:text-emerald-900 font-semibold transition-colors underline decoration-2 underline-offset-2 text-base"
+                  className="text-gray-800 hover:text-emerald-700 font-medium transition-colors text-lg underline underline-offset-4 decoration-emerald-500/60 hover:decoration-emerald-600"
                 >
                   {CONTACTS.phone}
                 </a>
@@ -411,21 +421,21 @@ export default function Home() {
 
             {/* LinkedIn */}
             {/* TODO: To update LinkedIn, modify CONTACTS.linkedin at the top */}
-            <div className="flex items-center gap-4 p-4 rounded-xl bg-emerald-50 hover:shadow-lg transition-all duration-200 border border-emerald-400">
-              <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center text-white shadow-lg flex-shrink-0">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <div className="flex items-center gap-4 p-3 rounded-xl transition-all duration-200">
+              <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shadow-sm flex-shrink-0">
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
                 </svg>
               </div>
               <div className="min-w-0">
-                <span className="text-emerald-700 font-medium block text-xs mb-0.5">LinkedIn</span>
+                <span className="text-emerald-600 font-bold block text-sm uppercase tracking-wider mb-0.5">LinkedIn</span>
                 <a
                   href={CONTACTS.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-emerald-800 hover:text-emerald-900 font-semibold transition-colors underline decoration-2 underline-offset-2 text-base break-all"
+                  className="text-gray-800 hover:text-emerald-700 font-medium transition-colors text-lg break-all underline underline-offset-4 decoration-emerald-500/60 hover:decoration-emerald-600"
                 >
-                  {CONTACTS.linkedin}
+                  {CONTACTS.linkedin.replace('https://', '')}
                 </a>
               </div>
             </div>
