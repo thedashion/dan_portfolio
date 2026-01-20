@@ -26,9 +26,9 @@ const ABOUT_ME = {
 const PROJECTS = [
   {
     id: 1,
-    title: 'E-Commerce Platform',
-    description: 'A full-stack e-commerce application with user authentication and payment integration.',
-    detailedDescription: 'This comprehensive e-commerce solution features a robust product management system, secure user authentication using JWT, and seamless payment gateway integration. It includes a responsive storefront for customers and an admin dashboard for inventory management.',
+    title: 'Flight Map Routing Web App',
+    description: 'Web app that helps user plan their flight routes and rank them based on distance, connections, and cost.',
+    detailedDescription: 'Flight route planning web application that models airports as linked-list graph nodes and computes optimal routes using Dijkstra’s algorithm. Routes are ranked and compared based on total distance, number of layovers, and overall cost to help users select the most efficient option.',
     technologies: ['React', 'Node.js', 'MongoDB', 'Redux', 'Stripe'],
     /* 
       HOW TO ADD IMAGES:
@@ -36,31 +36,31 @@ const PROJECTS = [
       2. Update the array below with the filename (e.g., '/my-project.png').
       3. The first image in the array will be used as the card's thumbnail.
     */
-    images: ['/project1-thumb.jpg', '/project1-detail1.jpg', '/project1-detail2.jpg'],
+    images: ['/p1/project1-thumb.jpg', '/p1/project1-detail1.jpg', '/p1/project1-detail2.jpg'],
   },
   {
     id: 2,
-    title: 'Task Management App',
-    description: 'A collaborative task management tool with real-time updates and team collaboration features.',
-    detailedDescription: 'Built for remote teams, this application allows users to create, assign, and track tasks in real-time. It leverages WebSockets for instant updates and includes features like drag-and-drop kanban boards and team chat.',
+    title: 'Smart Waste Management System',
+    description: 'A smart waste management system to improve waste collection efficiency and enhance urban hygiene practices.',
+    detailedDescription: 'Raspberry Pi–based smart waste management system using various sensors for contactless bin opening, liquid detection, and temperature/humidity monitoring, with LED overflow alerts and MQTT communication to stream real-time bin data to a dashboard.',
     technologies: ['TypeScript', 'Express', 'MySQL', 'Socket.io'],
-    images: ['/project2-thumb.jpg', '/project2-detail.jpg'], // TODO: Add your image paths here
+    images: ['/p2/project2-thumb.jpg', '/p2/project2-detail1.jpg', '/p2/project2-detail2.jpg'], // TODO: Add your image paths here
   },
   {
     id: 3,
-    title: 'Weather Dashboard',
-    description: 'A responsive weather dashboard that displays current conditions and forecasts.',
-    detailedDescription: 'This application consumes third-party weather APIs to provide accurate local forecasts. It features dynamic background changing based on weather conditions and geolocation support to automatically detect user location.',
+    title: 'Community Animal Reporting Web App',
+    description: 'Community platform for reporting animal-related incidents and sharing updates through dedicated discussion forums for each neighborhood animal.',
+    detailedDescription: 'Community Animal Care & Reporting web application that enables users to quickly report animal-related incidents and share updates about neighborhood animals through dedicated discussion forums. Implemented the system using a containerized microservices architecture to improve scalability and maintainability.',
     technologies: ['JavaScript', 'OpenWeatherMap API', 'HTML5/CSS3'],
-    images: ['/project3-thumb.jpg'], // TODO: Add your image paths here
+    images: ['/p3/project3-thumb.jpg', '/p3/project3-detail1.jpg', '/p3/project3-detail2.jpg', '/p3/project3-detail3.jpg'], // TODO: Add your image paths here
   },
   {
     id: 4,
-    title: 'Student Portal',
-    description: 'A portal for students to manage courses, assignments, and grades.',
-    detailedDescription: 'An academic management system designed to streamline communication between students and faculty. Students can access course materials, submit assignments, and view grades, while professors can manage course content and improved grading workflows.',
+    title: 'Game Market Insight platform',
+    description: 'A web application that provides insights into the game market.',
+    detailedDescription: 'Centralized video game analytics platform with a dashboard for comparing sales trends across platforms and regions. Designed the system to handle both structured and unstructured data to support analytics.',
     technologies: ['React', 'Python', 'PostgreSQL', 'Django'],
-    images: ['/project4-thumb.jpg'], // TODO: Add your image paths here
+    images: ['/p4/project4-thumb.jpg', '/p4/project4-detail1.jpg', '/p4/project4-detail2.jpg', '/p4/project4-detail3.jpg', '/p4/project4-detail4.jpg', '/p4/project4-detail5.jpg', '/p4/project4-detail6.jpg'], // TODO: Add your image paths here
   },
 ];
 
@@ -82,7 +82,7 @@ export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Resume URL - Replace 'your-resume.pdf' with your actual file in the public folder or a hosted link
+  // Resume URL - Place your resume.pdf in the public folder to use this link
   const RESUME_URL = '/resume.pdf';
 
   // Handle arrow key navigation for projects
@@ -200,9 +200,9 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-emerald-700 text-white hover:bg-emerald-800 font-bold transition-all px-8 py-3 rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
               >
-                <span>Download Resume</span>
+                <span>View Resume</span>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </svg>
               </a>
             </div>
@@ -278,91 +278,107 @@ export default function Home() {
 
           {/* Project Details Modal */}
           {isModalOpen && (
-            <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-fade-in" onClick={closeModal}>
-              <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl flex flex-col relative animate-scale-in" onClick={(e) => e.stopPropagation()}>
+            <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in" onClick={closeModal}>
+              <div className="bg-white rounded-2xl w-full max-w-5xl max-h-[95vh] overflow-y-auto shadow-2xl flex flex-col relative animate-scale-in" onClick={(e) => e.stopPropagation()}>
 
                 {/* Close Button */}
                 <button
                   onClick={() => setIsModalOpen(false)}
-                  className="absolute top-4 right-4 z-10 w-10 h-10 bg-white/80 rounded-full flex items-center justify-center text-emerald-900 hover:bg-emerald-100 transition-colors shadow-md"
+                  className="absolute top-4 right-4 z-50 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center text-emerald-900 hover:bg-white hover:text-emerald-600 transition-all shadow-lg"
                 >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
 
-                {/* Modal Content */}
-                <div className="flex flex-col md:flex-row h-full">
+                {/* Modal Content - Vertical Layout for better Image viewing */}
+                <div className="flex flex-col">
 
-                  {/* Left: Image Carousel (60%) */}
-                  <div className="md:w-3/5 bg-gray-100 relative min-h-[300px] md:min-h-[500px] flex items-center justify-center">
+                  {/* Top: Large Image Section */}
+                  <div className="w-full bg-gray-50 flex items-center justify-center relative min-h-[300px] sm:min-h-[450px] md:min-h-[600px] p-2 sm:p-4 border-b border-gray-100">
                     {currentProject.images && currentProject.images.length > 0 ? (
-                      <div className="relative w-full h-full">
+                      <div className="relative w-full h-[300px] sm:h-[450px] md:h-[600px]">
                         <Image
                           src={currentProject.images[currentImageIndex]}
                           alt={`${currentProject.title} image ${currentImageIndex + 1}`}
                           fill
-                          className="object-contain p-4"
+                          className="object-contain"
+                          priority
                         />
 
-                        {/* Image Navigation */}
+                        {/* Image Navigation Arrows */}
                         {currentProject.images.length > 1 && (
                           <>
                             <button
                               onClick={() => setCurrentImageIndex(prev => prev === 0 ? currentProject.images!.length - 1 : prev - 1)}
-                              className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/50 hover:bg-white rounded-full flex items-center justify-center text-emerald-900 transition-all shadow-lg backdrop-blur-sm"
+                              className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/80 hover:bg-white rounded-full flex items-center justify-center text-emerald-900 transition-all shadow-xl backdrop-blur-sm hover:scale-110 active:scale-95"
                             >
-                              ←
+                              <span className="text-2xl">←</span>
                             </button>
                             <button
                               onClick={() => setCurrentImageIndex(prev => prev === currentProject.images!.length - 1 ? 0 : prev + 1)}
-                              className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/50 hover:bg-white rounded-full flex items-center justify-center text-emerald-900 transition-all shadow-lg backdrop-blur-sm"
+                              className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/80 hover:bg-white rounded-full flex items-center justify-center text-emerald-900 transition-all shadow-xl backdrop-blur-sm hover:scale-110 active:scale-95"
                             >
-                              →
+                              <span className="text-2xl">→</span>
                             </button>
-                            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-                              {currentProject.images.map((_, idx) => (
-                                <button
-                                  key={idx}
-                                  onClick={() => setCurrentImageIndex(idx)}
-                                  className={`w-2 h-2 rounded-full transition-all ${idx === currentImageIndex ? 'bg-emerald-600 w-6' : 'bg-emerald-300'}`}
-                                />
-                              ))}
-                            </div>
                           </>
                         )}
                       </div>
                     ) : (
-                      <div className="text-gray-400 flex flex-col items-center">
-                        <svg className="w-16 h-16 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                        <p>No images available</p>
+                      <div className="text-gray-400 flex flex-col items-center p-20">
+                        <svg className="w-16 h-16 mb-4 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                        <p className="text-lg font-medium">Coming soon</p>
                       </div>
                     )}
                   </div>
 
-                  {/* Right: Details (40%) */}
-                  <div className="md:w-2/5 p-8 flex flex-col overflow-y-auto max-h-[500px]">
-                    <h3 className="text-3xl font-bold text-emerald-900 mb-2 leading-tight">
-                      {currentProject.title}
-                    </h3>
-                    <div className="w-16 h-1 bg-emerald-500 rounded-full mb-6"></div>
+                  {/* Bottom: Details Section */}
+                  <div className="w-full p-6 sm:p-10 md:p-12 bg-white">
+                    <div className="flex flex-col md:flex-row md:items-start justify-between gap-8">
+                      {/* Title & Description */}
+                      <div className="md:w-2/3">
+                        <div className="flex items-center gap-4 mb-4">
+                          <div className="w-2 h-10 bg-emerald-500 rounded-full"></div>
+                          <h3 className="text-3xl sm:text-4xl font-extrabold text-emerald-900 leading-tight">
+                            {currentProject.title}
+                          </h3>
+                        </div>
 
-                    <div className="mb-6">
-                      <h4 className="text-sm font-bold text-emerald-600 uppercase tracking-wider mb-2">Description</h4>
-                      <p className="text-gray-700 leading-relaxed">
-                        {currentProject.detailedDescription || currentProject.description}
-                      </p>
-                    </div>
+                        <div className="mt-8">
+                          <h4 className="text-sm font-bold text-emerald-600 uppercase tracking-[0.2em] mb-4">Project Overview</h4>
+                          <p className="text-gray-700 leading-relaxed text-lg">
+                            {currentProject.detailedDescription || currentProject.description}
+                          </p>
+                        </div>
+                      </div>
 
-                    <div className="mt-auto">
-                      <h4 className="text-sm font-bold text-emerald-600 uppercase tracking-wider mb-3">Technologies</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {currentProject.technologies.map((tech) => (
-                          <span
-                            key={tech}
-                            className="px-3 py-1.5 bg-emerald-100 text-emerald-800 rounded-md text-sm font-medium"
-                          >
-                            {tech}
-                          </span>
-                        ))}
+                      {/* Stack & Pagination Info */}
+                      <div className="md:w-1/3 pt-2">
+                        {currentProject.images && currentProject.images.length > 1 && (
+                          <div className="mb-10">
+                            <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Gallery</h4>
+                            <div className="flex gap-2.5">
+                              {currentProject.images.map((_, idx) => (
+                                <button
+                                  key={idx}
+                                  onClick={() => setCurrentImageIndex(idx)}
+                                  className={`h-1.5 rounded-full transition-all duration-300 ${idx === currentImageIndex ? 'bg-emerald-500 w-8' : 'bg-gray-200 w-4 hover:bg-gray-300'}`}
+                                />
+                              ))}
+                            </div>
+                            <p className="text-xs text-gray-400 mt-2 font-medium">Image {currentImageIndex + 1} of {currentProject.images.length}</p>
+                          </div>
+                        )}
+
+                        <h4 className="text-sm font-bold text-emerald-600 uppercase tracking-[0.2em] mb-4">Stack</h4>
+                        <div className="flex flex-wrap gap-2">
+                          {currentProject.technologies.map((tech) => (
+                            <span
+                              key={tech}
+                              className="px-4 py-2 bg-emerald-50 text-emerald-700 rounded-xl text-sm font-bold border border-emerald-100/50 shadow-sm"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>

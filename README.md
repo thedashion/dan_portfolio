@@ -1,65 +1,86 @@
-# Portfolio Website
+# 🌿 Minimalist Professional Portfolio
 
-A simple and clean portfolio website built with Next.js and Tailwind CSS.
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react)](https://reactjs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 
-## Features
+A premium, highly-responsive, and modern portfolio template designed for developers and creatives. Built with a focus on speed, accessibility, and a clean "emerald" aesthetic.
 
-- **About Me** section with personal introduction
-- **Programming Languages** showcase
-- **Software Tools** experience (MongoDB, MySQL, etc.)
-- **Circle Profile Image**
-- **Projects Dashboard** with arrow key navigation
-- **Contact Information** (Email, Phone, LinkedIn)
+## ✨ Key Features
 
-## Getting Started
+- **🚀 Performance First**: Built on Next.js 15 for lightning-fast page loads and SEO optimization.
+- **🎨 Modern Aesthetic**: Clean, professional design using a curated Emerald-themed color palette.
+- **📱 Fully Responsive**: Optimized for all screen sizes, from mobile phones to large desktop monitors.
+- **🛠️ Interactive Project Showcase**:
+  - Grid-based project overview.
+  - Interactive Modal for deep dives into project details.
+  - **Keyboard Friendly**: Integrated arrow-key navigation for the project dashboard and image carousels.
+- **📄 Resume Integration**: Easy download/view button for professional resumes.
+- **📍 Smooth Navigation**: One-page layout with smooth scrolling and a blurred-backdrop sticky header.
 
-First, run the development server:
+## 🛠️ Technology Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Framework**: [Next.js](https://nextjs.org/) (App Router)
+- **Library**: [React 19](https://react.dev/)
+- **Styling**: [Tailwind CSS 4.0](https://tailwindcss.com/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Optimization**: [next/font](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) for performance-oriented typography.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Getting Started
 
-## Customization
+1. **Clone the repository:**
+   ```bash
+   git clone <your-repo-url>
+   cd dan_portfolio
+   ```
 
-All customization is done in `app/page.tsx`. Look for the **CONFIGURATION SECTION** at the top of the file to update:
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-1. **Profile Image**: 
-   - Place your image in the `public` folder
-   - Update `PROFILE_IMAGE_PATH` variable (e.g., `/profile.jpg`)
+3. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
 
-2. **About Me**: Update `ABOUT_ME` object with your name, title, and description
+4. **View the site:**
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-3. **Programming Languages**: Modify the `PROGRAMMING_LANGUAGES` array
+## ⚙️ Customization Guide
 
-4. **Software Tools**: Modify the `SOFTWARE_TOOLS` array
+This template is designed to be easily customized without digging deep into the codebase. All primary configuration happens in `app/page.tsx`.
 
-5. **Projects**: Update the `SCHOOL_PROJECTS` array with your projects
+### 1. Personal Information
+Locate the `ABOUT_ME` constant at the top of `app/page.tsx`:
+- Change your name, title, and "About Me" description.
+- To update your profile picture:
+  - Add your image to the `public/` directory.
+  - Update `PROFILE_IMAGE_PATH` (e.g., `const PROFILE_IMAGE_PATH = '/your-photo.jpg';`).
 
-6. **Contacts**: Update the `CONTACTS` object with your email, phone, and LinkedIn URL
+### 2. Project Portfolio
+Update the `PROJECTS` array to showcase your work:
+- Add IDs, titles, descriptions, and detailed descriptions.
+- List technologies used for each project.
+- List image paths (the first image is used as the grid thumbnail).
 
-All important sections are clearly commented in the code for easy updates.
+### 3. Contact Details
+Update the `CONTACTS` object:
+- Enter your email, phone number, and LinkedIn URL.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 4. Resume
+- Place your resume PDF in the `public/` folder.
+- Update the `RESUME_URL` constant inside the `Home` component.
 
-## Learn More
+## 📦 Deployment
 
-To learn more about Next.js, take a look at the following resources:
+The easiest way to deploy is via [Vercel](https://vercel.com/new):
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Push your code to a GitHub repository.
+2. Connect your repo to Vercel.
+3. It will automatically detect Next.js and deploy your site.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built with ❤️ by **Heng Sheng Yao Dan** using the Antigravity assistant.
