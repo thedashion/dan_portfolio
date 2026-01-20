@@ -341,36 +341,55 @@ export default function Home() {
                           priority
                         />
 
-                        {/* Image Navigation Arrows - Moved to edges and outside narrow image area */}
+                        {/* Desktop Image Navigation Arrows - Hidden on Mobile */}
                         {currentProject.images.length > 1 && (
                           <>
                             <button
                               onClick={(e) => { e.stopPropagation(); setCurrentImageIndex(prev => prev === 0 ? currentProject.images!.length - 1 : prev - 1); }}
-                              className="absolute -left-2 sm:-left-12 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full flex items-center justify-center transition-all shadow-xl hover:scale-110 active:scale-95 z-10"
+                              className="hidden sm:flex absolute -left-12 top-1/2 -translate-y-1/2 w-12 h-12 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full items-center justify-center transition-all shadow-xl hover:scale-110 active:scale-95 z-10"
                             >
-                              <span className="text-xl sm:text-2xl">←</span>
+                              <span className="text-2xl">←</span>
                             </button>
                             <button
                               onClick={(e) => { e.stopPropagation(); setCurrentImageIndex(prev => prev === currentProject.images!.length - 1 ? 0 : prev + 1); }}
-                              className="absolute -right-2 sm:-right-12 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full flex items-center justify-center transition-all shadow-xl hover:scale-110 active:scale-95 z-10"
+                              className="hidden sm:flex absolute -right-12 top-1/2 -translate-y-1/2 w-12 h-12 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full items-center justify-center transition-all shadow-xl hover:scale-110 active:scale-95 z-10"
                             >
-                              <span className="text-xl sm:text-2xl">→</span>
+                              <span className="text-2xl">→</span>
                             </button>
 
-                            {/* Image Counter Overlay */}
-                            <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 w-full px-4">
-                              <div className="flex gap-2">
-                                {currentProject.images.map((_, idx) => (
-                                  <button
-                                    key={idx}
-                                    onClick={() => setCurrentImageIndex(idx)}
-                                    className={`h-1.5 rounded-full transition-all duration-300 ${idx === currentImageIndex ? 'bg-emerald-500 w-8' : 'bg-gray-200 w-4 hover:bg-gray-400'}`}
-                                  />
-                                ))}
+                            {/* Image Counter & Mobile Controls Overlay */}
+                            <div className="absolute -bottom-16 sm:-bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-between sm:justify-center w-full sm:w-auto px-6 sm:px-0 gap-4">
+
+                              {/* Left Arrow (Mobile only) */}
+                              <button
+                                onClick={(e) => { e.stopPropagation(); setCurrentImageIndex(prev => prev === 0 ? currentProject.images!.length - 1 : prev - 1); }}
+                                className="sm:hidden w-10 h-10 bg-emerald-600 text-white rounded-full flex items-center justify-center shadow-md active:scale-90 transition-transform"
+                              >
+                                <span className="text-lg">←</span>
+                              </button>
+
+                              <div className="flex flex-col items-center gap-2">
+                                <div className="flex gap-2">
+                                  {currentProject.images.map((_, idx) => (
+                                    <button
+                                      key={idx}
+                                      onClick={() => setCurrentImageIndex(idx)}
+                                      className={`h-1.5 rounded-full transition-all duration-300 ${idx === currentImageIndex ? 'bg-emerald-500 w-8' : 'bg-gray-200 w-4 hover:bg-gray-400'}`}
+                                    />
+                                  ))}
+                                </div>
+                                <p className="text-[10px] sm:text-xs font-bold text-emerald-800 uppercase tracking-widest bg-white px-3 py-1 rounded-full shadow-sm border border-emerald-100 whitespace-nowrap">
+                                  Image {currentImageIndex + 1} of {currentProject.images.length}
+                                </p>
                               </div>
-                              <p className="text-xs font-bold text-emerald-800 uppercase tracking-widest bg-white px-3 py-1 rounded-full shadow-sm border border-emerald-100">
-                                Image {currentImageIndex + 1} of {currentProject.images.length}
-                              </p>
+
+                              {/* Right Arrow (Mobile only) */}
+                              <button
+                                onClick={(e) => { e.stopPropagation(); setCurrentImageIndex(prev => prev === currentProject.images!.length - 1 ? 0 : prev + 1); }}
+                                className="sm:hidden w-10 h-10 bg-emerald-600 text-white rounded-full flex items-center justify-center shadow-md active:scale-90 transition-transform"
+                              >
+                                <span className="text-lg">→</span>
+                              </button>
                             </div>
                           </>
                         )}
