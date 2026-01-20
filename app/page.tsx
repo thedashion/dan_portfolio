@@ -330,7 +330,7 @@ export default function Home() {
                   </div>
 
                   {/* Bottom: Large Image Section */}
-                  <div className="w-full bg-gray-50 flex items-center justify-center relative min-h-[300px] sm:min-h-[450px] md:min-h-[600px] px-2 sm:px-16 py-2 sm:p-4">
+                  <div className="w-full bg-gray-50 flex items-center justify-center relative min-h-[300px] sm:min-h-[450px] md:min-h-[600px] px-2 sm:px-16 pt-8 pb-20 sm:pb-8">
                     {currentProject.images && currentProject.images.length > 0 ? (
                       <div className="relative w-full h-[300px] sm:h-[450px] md:h-[600px]">
                         <Image
@@ -358,7 +358,7 @@ export default function Home() {
                             </button>
 
                             {/* Image Counter & Mobile Controls Overlay */}
-                            <div className="absolute -bottom-16 sm:-bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-between sm:justify-center w-full sm:w-auto px-6 sm:px-0 gap-4">
+                            <div className="absolute -bottom-12 sm:-bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-between sm:justify-center w-full sm:w-auto px-6 sm:px-0 gap-4">
 
                               {/* Left Arrow (Mobile only) */}
                               <button
