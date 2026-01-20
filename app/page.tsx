@@ -292,46 +292,8 @@ export default function Home() {
                 {/* Modal Content - Vertical Layout for better Image viewing */}
                 <div className="flex flex-col">
 
-                  {/* Top: Large Image Section */}
-                  <div className="w-full bg-gray-50 flex items-center justify-center relative min-h-[300px] sm:min-h-[450px] md:min-h-[600px] p-2 sm:p-4 border-b border-gray-100">
-                    {currentProject.images && currentProject.images.length > 0 ? (
-                      <div className="relative w-full h-[300px] sm:h-[450px] md:h-[600px]">
-                        <Image
-                          src={currentProject.images[currentImageIndex]}
-                          alt={`${currentProject.title} image ${currentImageIndex + 1}`}
-                          fill
-                          className="object-contain"
-                          priority
-                        />
-
-                        {/* Image Navigation Arrows */}
-                        {currentProject.images.length > 1 && (
-                          <>
-                            <button
-                              onClick={() => setCurrentImageIndex(prev => prev === 0 ? currentProject.images!.length - 1 : prev - 1)}
-                              className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/80 hover:bg-white rounded-full flex items-center justify-center text-emerald-900 transition-all shadow-xl backdrop-blur-sm hover:scale-110 active:scale-95"
-                            >
-                              <span className="text-2xl">←</span>
-                            </button>
-                            <button
-                              onClick={() => setCurrentImageIndex(prev => prev === currentProject.images!.length - 1 ? 0 : prev + 1)}
-                              className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/80 hover:bg-white rounded-full flex items-center justify-center text-emerald-900 transition-all shadow-xl backdrop-blur-sm hover:scale-110 active:scale-95"
-                            >
-                              <span className="text-2xl">→</span>
-                            </button>
-                          </>
-                        )}
-                      </div>
-                    ) : (
-                      <div className="text-gray-400 flex flex-col items-center p-20">
-                        <svg className="w-16 h-16 mb-4 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                        <p className="text-lg font-medium">Coming soon</p>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Bottom: Details Section */}
-                  <div className="w-full p-6 sm:p-10 md:p-12 bg-white">
+                  {/* Top: Details Section */}
+                  <div className="w-full p-6 sm:p-10 md:p-12 bg-white border-b border-gray-100">
                     <div className="flex flex-col md:flex-row md:items-start justify-between gap-8">
                       {/* Title & Description */}
                       <div className="md:w-2/3">
@@ -350,26 +312,10 @@ export default function Home() {
                         </div>
                       </div>
 
-                      {/* Stack & Pagination Info */}
+                      {/* Stack Info */}
                       <div className="md:w-1/3 pt-2">
-                        {currentProject.images && currentProject.images.length > 1 && (
-                          <div className="mb-10">
-                            <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Gallery</h4>
-                            <div className="flex gap-2.5">
-                              {currentProject.images.map((_, idx) => (
-                                <button
-                                  key={idx}
-                                  onClick={() => setCurrentImageIndex(idx)}
-                                  className={`h-1.5 rounded-full transition-all duration-300 ${idx === currentImageIndex ? 'bg-emerald-500 w-8' : 'bg-gray-200 w-4 hover:bg-gray-300'}`}
-                                />
-                              ))}
-                            </div>
-                            <p className="text-xs text-gray-400 mt-2 font-medium">Image {currentImageIndex + 1} of {currentProject.images.length}</p>
-                          </div>
-                        )}
-
                         <h4 className="text-sm font-bold text-emerald-600 uppercase tracking-[0.2em] mb-4">Stack</h4>
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-2 mb-8">
                           {currentProject.technologies.map((tech) => (
                             <span
                               key={tech}
@@ -381,6 +327,62 @@ export default function Home() {
                         </div>
                       </div>
                     </div>
+                  </div>
+
+                  {/* Bottom: Large Image Section */}
+                  <div className="w-full bg-gray-50 flex items-center justify-center relative min-h-[300px] sm:min-h-[450px] md:min-h-[600px] px-2 sm:px-16 py-2 sm:p-4">
+                    {currentProject.images && currentProject.images.length > 0 ? (
+                      <div className="relative w-full h-[300px] sm:h-[450px] md:h-[600px]">
+                        <Image
+                          src={currentProject.images[currentImageIndex]}
+                          alt={`${currentProject.title} image ${currentImageIndex + 1}`}
+                          fill
+                          className="object-contain"
+                          priority
+                        />
+
+                        {/* Image Navigation Arrows - Moved to edges and outside narrow image area */}
+                        {currentProject.images.length > 1 && (
+                          <>
+                            <button
+                              onClick={(e) => { e.stopPropagation(); setCurrentImageIndex(prev => prev === 0 ? currentProject.images!.length - 1 : prev - 1); }}
+                              className="absolute -left-2 sm:-left-12 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full flex items-center justify-center transition-all shadow-xl hover:scale-110 active:scale-95 z-10"
+                            >
+                              <span className="text-xl sm:text-2xl">←</span>
+                            </button>
+                            <button
+                              onClick={(e) => { e.stopPropagation(); setCurrentImageIndex(prev => prev === currentProject.images!.length - 1 ? 0 : prev + 1); }}
+                              className="absolute -right-2 sm:-right-12 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full flex items-center justify-center transition-all shadow-xl hover:scale-110 active:scale-95 z-10"
+                            >
+                              <span className="text-xl sm:text-2xl">→</span>
+                            </button>
+
+                            {/* Image Counter Overlay */}
+                            <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 w-full px-4">
+                              <div className="flex gap-2">
+                                {currentProject.images.map((_, idx) => (
+                                  <button
+                                    key={idx}
+                                    onClick={() => setCurrentImageIndex(idx)}
+                                    className={`h-1.5 rounded-full transition-all duration-300 ${idx === currentImageIndex ? 'bg-emerald-500 w-8' : 'bg-gray-200 w-4 hover:bg-gray-400'}`}
+                                  />
+                                ))}
+                              </div>
+                              <p className="text-xs font-bold text-emerald-800 uppercase tracking-widest bg-white px-3 py-1 rounded-full shadow-sm border border-emerald-100">
+                                Image {currentImageIndex + 1} of {currentProject.images.length}
+                              </p>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="text-gray-400 flex flex-col items-center p-20">
+                        <svg className="w-16 h-16 mb-4 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <p className="text-lg font-medium">Coming soon</p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -458,6 +460,6 @@ export default function Home() {
           </div>
         </section>
       </main>
-    </div>
+    </div >
   );
 }
