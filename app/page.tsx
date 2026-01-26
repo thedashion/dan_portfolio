@@ -9,13 +9,13 @@ import Image from 'next/image';
 
 // TODO: Update your profile picture by placing it in the 'public' folder 
 // and updating the filename below (e.g., '/my-photo.png')
-const PROFILE_IMAGE_PATH = '/dp.png';
+// const PROFILE_IMAGE_PATH = '/dp.png';
 
 // About Me Section - Update your information here
 const ABOUT_ME = {
   name: 'Heng Sheng Yao Dan',
   title: '',
-  description: 'Computer Science undergraduate exploring software development to solve real-world problems. Willing to learn and adaptable to new technologies',
+  description: 'Computer Science undergraduate interested in software development to solve real-world problems. Willing to learn and adaptable to new technologies',
 };
 
 // Programming Languages - Add or remove languages as needed
@@ -29,7 +29,7 @@ const PROJECTS = [
     title: 'Flight Map Routing Web App',
     description: 'Web app that helps user plan their flight routes and rank them based on distance, connections, and cost.',
     detailedDescription: 'Flight route planning web application that models airports as linked-list graph nodes and computes optimal routes using Dijkstra’s algorithm. Routes are ranked and compared based on total distance, number of layovers, and overall cost to help users select the most efficient option.',
-    technologies: ['React', 'Node.js', 'MongoDB', 'Redux', 'Stripe'],
+    // technologies: ['React', 'Node.js', 'MongoDB', 'Redux', 'Stripe'],
     /* 
       HOW TO ADD IMAGES:
       1. Place your project images in the 'public' folder of this project.
@@ -43,7 +43,7 @@ const PROJECTS = [
     title: 'Smart Waste Management System',
     description: 'A smart waste management system to improve waste collection efficiency and enhance urban hygiene practices.',
     detailedDescription: 'Raspberry Pi–based smart waste management system using various sensors for contactless bin opening, liquid detection, and temperature/humidity monitoring, with LED overflow alerts and MQTT communication to stream real-time bin data to a dashboard.',
-    technologies: ['TypeScript', 'Express', 'MySQL', 'Socket.io'],
+    // technologies: ['TypeScript', 'Express', 'MySQL', 'Socket.io'],
     images: ['/p2/project2-thumb.jpg', '/p2/project2-detail1.jpg', '/p2/project2-detail2.jpg'], // TODO: Add your image paths here
   },
   {
@@ -51,7 +51,7 @@ const PROJECTS = [
     title: 'Community Animal Reporting Web App',
     description: 'Community platform for reporting animal-related incidents and sharing updates through dedicated discussion forums for each neighborhood animal.',
     detailedDescription: 'Community Animal Care & Reporting web application that enables users to quickly report animal-related incidents and share updates about neighborhood animals through dedicated discussion forums. Implemented the system using a containerized microservices architecture to improve scalability and maintainability.',
-    technologies: ['JavaScript', 'OpenWeatherMap API', 'HTML5/CSS3'],
+    // technologies: ['JavaScript', 'OpenWeatherMap API', 'HTML5/CSS3'],
     images: ['/p3/project3-thumb.jpg', '/p3/project3-detail1.jpg', '/p3/project3-detail2.jpg', '/p3/project3-detail3.jpg'], // TODO: Add your image paths here
   },
   {
@@ -59,8 +59,16 @@ const PROJECTS = [
     title: 'Game Market Insight platform',
     description: 'A web application that provides insights into the game market.',
     detailedDescription: 'Centralized video game analytics platform with a dashboard for comparing sales trends across platforms and regions. Designed the system to handle both structured and unstructured data to support analytics.',
-    technologies: ['React', 'Python', 'PostgreSQL', 'Django'],
+    // technologies: ['React', 'Python', 'PostgreSQL', 'Django'],
     images: ['/p4/project4-thumb.jpg', '/p4/project4-detail1.jpg', '/p4/project4-detail2.jpg', '/p4/project4-detail3.jpg', '/p4/project4-detail4.jpg', '/p4/project4-detail5.jpg', '/p4/project4-detail6.jpg'], // TODO: Add your image paths here
+  },
+  {
+    id: 5,
+    title: 'Smart Pantry Tracking & Recipe Recommendation Web App',
+    description: 'AI-powered web app that identifies groceries from photos, tracks expiry dates, and recomand portioned recipe to reduce food waste.', // TODO: Update project description
+    detailedDescription: 'AI-powered web app that reduces household food waste by identifying groceries from photos, predicting expiry dates, and sending mobile alerts with portioned recipe recommendations. Integrates OpenAI image recognition and AI Singapore’s SEA-LION to deliver culturally accurate Southeast Asian recipes with multilingual support', // TODO: Update detailed description
+    // technologies: ['Tech 1', 'Tech 2', 'Tech 3'], // TODO: List the technologies used 
+    images: ['/project5-thumb.jpg', '/project5-detail1.jpg'], // TODO: Add your image paths here
   },
 ];
 
@@ -183,8 +191,8 @@ export default function Home() {
       <main className="container mx-auto px-4 py-8 sm:py-12 max-w-6xl">
         {/* Hero Section: Info and Profile Image side-by-side */}
         <section id="home" className="flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12 mb-16 animate-fade-in pt-4 sm:pt-8">
-          {/* Left: Name and About (2/3 width on desktop) */}
-          <div className="w-full md:w-2/3 text-center md:text-left order-2 md:order-1">
+          {/* Left: Name and About (Full width when image is hidden) */}
+          <div className="w-full text-center md:text-left order-2 md:order-1">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-emerald-900 mb-6 tracking-tight leading-tight">
               Welcome to my portfolio
             </h2>
@@ -208,8 +216,8 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Right: Profile Image (1/3 width on desktop) */}
-          <div className="md:w-1/3 flex justify-center md:justify-end order-1 md:order-2">
+          {/* Right: Profile Image - Hidden as requested */}
+          {/* <div className="md:w-1/3 flex justify-center md:justify-end order-1 md:order-2">
             <div className="relative w-48 h-48 md:w-72 md:h-72 rounded-full overflow-hidden border-4 border-white shadow-2xl bg-emerald-50 flex items-center justify-center ring-4 ring-emerald-100 hover:scale-105 transition-transform duration-300">
               <Image
                 src={PROFILE_IMAGE_PATH}
@@ -220,7 +228,7 @@ export default function Home() {
                 priority
               />
             </div>
-          </div>
+          </div> */}
         </section>
 
 
@@ -257,8 +265,9 @@ export default function Home() {
                   {project.description}
                 </p>
 
-                <div className="mt-auto flex flex-wrap gap-2 pt-2">
-                  {project.technologies.slice(0, 3).map((tech) => (
+                {/* Technologies hidden as requested */}
+                {/* <div className="mt-auto flex flex-wrap gap-2 pt-2">
+                  {project.technologies?.slice(0, 3).map((tech) => (
                     <span
                       key={tech}
                       className="px-2.5 py-1 bg-gray-50 text-gray-500 text-xs font-medium rounded-md border border-gray-100"
@@ -266,12 +275,12 @@ export default function Home() {
                       {tech}
                     </span>
                   ))}
-                  {project.technologies.length > 3 && (
+                  {project.technologies?.length > 3 && (
                     <span className="text-xs text-gray-400 self-center">
                       +{project.technologies.length - 3} more
                     </span>
                   )}
-                </div>
+                </div> */}
               </div>
             ))}
           </div>
@@ -312,11 +321,11 @@ export default function Home() {
                         </div>
                       </div>
 
-                      {/* Stack Info */}
-                      <div className="md:w-1/3 pt-2">
+                      {/* Stack Info hidden as requested */}
+                      {/* <div className="md:w-1/3 pt-2">
                         <h4 className="text-sm font-bold text-emerald-600 uppercase tracking-[0.2em] mb-4">Stack</h4>
                         <div className="flex flex-wrap gap-2 mb-8">
-                          {currentProject.technologies.map((tech) => (
+                          {currentProject.technologies?.map((tech) => (
                             <span
                               key={tech}
                               className="px-4 py-2 bg-emerald-50 text-emerald-700 rounded-xl text-sm font-bold border border-emerald-100/50 shadow-sm"
@@ -325,7 +334,7 @@ export default function Home() {
                             </span>
                           ))}
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
 
