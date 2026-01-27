@@ -261,7 +261,7 @@ export default function Home() {
                   </h3>
                 </div>
 
-                <p className="text-gray-600 text-sm leading-relaxed line-clamp-2">
+                <p className="text-gray-600 text-sm leading-relaxed">
                   {project.description}
                 </p>
 
