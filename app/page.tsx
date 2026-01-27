@@ -9,13 +9,13 @@ import Image from 'next/image';
 
 // TODO: Update your profile picture by placing it in the 'public' folder 
 // and updating the filename below (e.g., '/my-photo.png')
-// const PROFILE_IMAGE_PATH = '/dp.png';
+const PROFILE_IMAGE_PATH = '/dp.png';
 
 // About Me Section - Update your information here
 const ABOUT_ME = {
   name: 'Heng Sheng Yao Dan',
   title: '',
-  description: 'Computer Science undergraduate interested in software development to solve real-world problems. Willing to learn and adaptable to new technologies',
+  description: 'Computer Science undergraduate passionate about building software solutions for real-world problems and creating meaningful user experiences. Willing to learn and adaptable to new technologies',
 };
 
 // Programming Languages - Add or remove languages as needed
@@ -31,10 +31,11 @@ const PROJECTS = [
     detailedDescription: 'Flight route planning web application that models airports as linked-list graph nodes and computes optimal routes using Dijkstra’s algorithm. Routes are ranked and compared based on total distance, number of layovers, and overall cost to help users select the most efficient option.',
     // technologies: ['React', 'Node.js', 'MongoDB', 'Redux', 'Stripe'],
     /* 
-      HOW TO ADD IMAGES:
-      1. Place your project images in the 'public' folder of this project.
-      2. Update the array below with the filename (e.g., '/my-project.png').
-      3. The first image in the array will be used as the card's thumbnail.
+      HOW TO ADD MEDIA (IMAGES/VIDEOS):
+      1. Place your files (PNG, JPG, MP4, etc.) in the 'public' folder.
+      2. Add the filename here (e.g., '/demo.mp4' or '/screenshot.png').
+      3. Supported videos: .mp4, .webm, .ogg, .mov
+      4. Note: The first item in the array is used as the card's thumbnail (use an image here).
     */
     images: ['/p1/project1-thumb.jpg', '/p1/project1-detail1.jpg', '/p1/project1-detail2.jpg'],
   },
@@ -66,9 +67,9 @@ const PROJECTS = [
     id: 5,
     title: 'Smart Pantry Tracking & Recipe Recommendation Web App',
     description: 'AI-powered web app that identifies groceries from photos, tracks expiry dates, and recomand portioned recipe to reduce food waste.', // TODO: Update project description
-    detailedDescription: 'AI-powered web app that reduces household food waste by identifying groceries from photos, predicting expiry dates, and sending mobile alerts with portioned recipe recommendations. Integrates OpenAI image recognition and AI Singapore’s SEA-LION to deliver culturally accurate Southeast Asian recipes with multilingual support', // TODO: Update detailed description
+    detailedDescription: 'AI-powered web app that reduces household food waste by identifying groceries from photos, tracks expiry dates, and portioned recipe recommendations based on what you already have in your pantry. Integrates OpenAI image recognition and AI Singapore’s SEA-LION to deliver culturally accurate Southeast Asian recipes with multilingual support', // TODO: Update detailed description
     // technologies: ['Tech 1', 'Tech 2', 'Tech 3'], // TODO: List the technologies used 
-    images: ['/project5-thumb.jpg', '/project5-detail1.jpg'], // TODO: Add your image paths here
+    images: ['/p5/foodimage.jpg', '/p5/scan.mp4', '/p5/food-log.mp4', '/p5/food-recipe.mp4', '/p5/food-noti.mp4'], // TODO: Add your image paths here
   },
 ];
 
@@ -191,8 +192,8 @@ export default function Home() {
       <main className="container mx-auto px-4 py-8 sm:py-12 max-w-6xl">
         {/* Hero Section: Info and Profile Image side-by-side */}
         <section id="home" className="flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12 mb-16 animate-fade-in pt-4 sm:pt-8">
-          {/* Left: Name and About (Full width when image is hidden) */}
-          <div className="w-full text-center md:text-left order-2 md:order-1">
+          {/* Left: Name and About (2/3 width on desktop) */}
+          <div className="w-full md:w-2/3 text-center md:text-left order-2 md:order-1">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-emerald-900 mb-6 tracking-tight leading-tight">
               Welcome to my portfolio
             </h2>
@@ -216,19 +217,19 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Right: Profile Image - Hidden as requested */}
-          {/* <div className="md:w-1/3 flex justify-center md:justify-end order-1 md:order-2">
-            <div className="relative w-48 h-48 md:w-72 md:h-72 rounded-full overflow-hidden border-4 border-white shadow-2xl bg-emerald-50 flex items-center justify-center ring-4 ring-emerald-100 hover:scale-105 transition-transform duration-300">
+          {/* Right: Profile Image */}
+          <div className="md:w-1/3 flex justify-center order-1 md:order-2 md:-mt-4 md:-ml-12">
+            <div className="relative w-48 h-48 md:w-72 md:h-72 flex items-center justify-center">
               <Image
                 src={PROFILE_IMAGE_PATH}
                 alt="Profile"
                 width={288}
                 height={288}
-                className="object-cover rounded-full"
+                className="object-contain"
                 priority
               />
             </div>
-          </div> */}
+          </div>
         </section>
 
 
@@ -338,17 +339,41 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Bottom: Large Image Section */}
+                  {/* Bottom: Large Media Section (Images/Videos) */}
                   <div className="w-full bg-gray-50 flex items-center justify-center relative min-h-[300px] sm:min-h-[450px] md:min-h-[600px] px-2 sm:px-16 pt-8 pb-20 sm:pb-8">
                     {currentProject.images && currentProject.images.length > 0 ? (
                       <div className="relative w-full h-[300px] sm:h-[450px] md:h-[600px]">
-                        <Image
-                          src={currentProject.images[currentImageIndex]}
-                          alt={`${currentProject.title} image ${currentImageIndex + 1}`}
-                          fill
-                          className="object-contain"
-                          priority
-                        />
+                        {/* Media Detection & Rendering */}
+                        {(() => {
+                          const src = currentProject.images[currentImageIndex];
+                          const isVideo = src.match(/\.(mp4|webm|ogg|mov)$/i);
+
+                          if (isVideo) {
+                            return (
+                              <div className="w-full h-full flex items-center justify-center">
+                                <video
+                                  src={src}
+                                  controls
+                                  className="max-w-full max-h-full rounded-lg shadow-lg"
+                                  autoPlay
+                                  muted
+                                  loop
+                                  playsInline
+                                />
+                              </div>
+                            );
+                          }
+
+                          return (
+                            <Image
+                              src={src}
+                              alt={`${currentProject.title} media ${currentImageIndex + 1}`}
+                              fill
+                              className="object-contain"
+                              priority
+                            />
+                          );
+                        })()}
 
                         {/* Desktop Image Navigation Arrows - Hidden on Mobile */}
                         {currentProject.images.length > 1 && (
@@ -388,7 +413,7 @@ export default function Home() {
                                   ))}
                                 </div>
                                 <p className="text-[10px] sm:text-xs font-bold text-emerald-800 uppercase tracking-widest bg-white px-3 py-1 rounded-full shadow-sm border border-emerald-100 whitespace-nowrap">
-                                  Image {currentImageIndex + 1} of {currentProject.images.length}
+                                  Media {currentImageIndex + 1} of {currentProject.images.length}
                                 </p>
                               </div>
 
