@@ -92,7 +92,8 @@ export default function Home() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   // Resume URL - Place your resume.pdf in the public folder to use this link
-  const RESUME_URL = '/resume.pdf';
+  // Resume button (temporarily disabled)
+  // const RESUME_URL = '/resume.pdf';
 
   // Handle arrow key navigation for projects
   useEffect(() => {
@@ -203,6 +204,8 @@ export default function Home() {
                 {ABOUT_ME.description}
               </p>
 
+              {/* Resume button (temporarily disabled) */}
+              {/*
               <a
                 href={RESUME_URL}
                 target="_blank"
@@ -214,6 +217,7 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </svg>
               </a>
+              */}
             </div>
           </div>
 
