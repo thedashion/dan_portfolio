@@ -37,7 +37,7 @@ const PROJECTS = [
       3. Supported videos: .mp4, .webm, .ogg, .mov
       4. Note: The first item in the array is used as the card's thumbnail (use an image here).
     */
-    images: ['/p1/project1-thumb.jpg', '/p1/project1-detail1.jpg', '/p1/project1-detail2.jpg'],
+    images: ['/p1/DSA.mp4'],
   },
   {
     id: 2,
@@ -65,11 +65,27 @@ const PROJECTS = [
   },
   {
     id: 5,
-    title: 'Smart Pantry Tracking & Recipe Recommendation Web App',
-    description: 'AI-powered web app that identifies groceries from photos, tracks expiry dates, and recomand portioned recipe to reduce food waste.', // TODO: Update project description
+    title: 'Food For Thought',
+    description: 'Smart Pantry Tracking & Recipe Recommendation Web App.', // TODO: Update project description
     detailedDescription: 'AI-powered web app that reduces household food waste by identifying groceries from photos, tracks expiry dates, and portioned recipe recommendations based on what you already have in your pantry. Integrates OpenAI image recognition and AI Singapore’s SEA-LION to deliver culturally accurate Southeast Asian recipes with multilingual support', // TODO: Update detailed description
     // technologies: ['Tech 1', 'Tech 2', 'Tech 3'], // TODO: List the technologies used 
     images: ['/p5/foodimage.jpg', '/p5/scan.mp4', '/p5/food-log.mp4', '/p5/food-recipe.mp4', '/p5/food-noti.mp4'], // TODO: Add your image paths here
+  },
+    {
+    id: 6,
+    title: 'PolyConnect',
+    description: 'Single mobile platform for all academic needs for students.', // TODO: Update project description
+    detailedDescription: 'An Android app featuring an AI learning assistant that personalizes content based on student performance, supports collaborative learning, and provides educators with insights into student progress.', // TODO: Update detailed description
+    // technologies: ['Tech 1', 'Tech 2', 'Tech 3'], // TODO: List the technologies used 
+    images: ['/p6/polyconnectHome.jpg', '/p6/polyconnecthomepage.jpg', '/p6/polyconnectmcq.jpg', '/p6/polyconnectaichat.jpg', '/p6/card.mp4', '/p6/polyconnectcal.mp4'], // TODO: Add your image paths here
+  },
+      {
+    id: 7,
+    title: 'DevOps Pipeline Designer',
+    description: 'A CI/CD DevSecOps web app supporting custom YAML pipelines for automated build, testing, security, and deployment, with GitLab integration and AI-assisted debugging.', // TODO: Update project description
+    detailedDescription: 'CI/CD DevSecOps web application that enables custom YAML pipeline configuration for automated build, testing, security scanning, and deployment. It integrates GitLab APIs and webhooks for real-time pipeline execution and tracking, and includes AI-assisted analysis of logs and artifacts to improve debugging efficiency', // TODO: Update detailed description
+    // technologies: ['Tech 1', 'Tech 2', 'Tech 3'], // TODO: List the technologies used 
+    images: ['/p7/psdhome.png', '/p7/custom.png', '/p7/stage.png', '/p7/pass.png', '/p7/error.png'], // TODO: Add your image paths here
   },
 ];
 
@@ -86,6 +102,8 @@ const CONTACTS = {
 // ============================================
 
 export default function Home() {
+  const sortedProjects = [...PROJECTS].sort((a, b) => b.id - a.id);
+
   // State for managing the current project in the dashboard
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -101,16 +119,16 @@ export default function Home() {
       if (!isModalOpen) {
         if (e.key === 'ArrowLeft') {
           setCurrentProjectIndex((prev) =>
-            prev === 0 ? PROJECTS.length - 1 : prev - 1
+            prev === 0 ? sortedProjects.length - 1 : prev - 1
           );
         } else if (e.key === 'ArrowRight') {
           setCurrentProjectIndex((prev) =>
-            prev === PROJECTS.length - 1 ? 0 : prev + 1
+            prev === sortedProjects.length - 1 ? 0 : prev + 1
           );
         }
       } else {
         // Modal navigation
-        const images = PROJECTS[currentProjectIndex].images || [];
+        const images = sortedProjects[currentProjectIndex].images || [];
         if (images.length === 0) return;
 
         if (e.key === 'ArrowLeft') {
@@ -129,9 +147,9 @@ export default function Home() {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [isModalOpen, currentProjectIndex]);
+  }, [isModalOpen, currentProjectIndex, sortedProjects]);
 
-  const currentProject = PROJECTS[currentProjectIndex];
+  const currentProject = sortedProjects[currentProjectIndex];
 
   // Reset image index when project changes
   useEffect(() => {
@@ -146,7 +164,15 @@ export default function Home() {
     }
   };
 
-  const openModal = () => setIsModalOpen(true);
+  const openModal = (projectIndex?: number) => {
+    setCurrentImageIndex(0);
+
+    if (typeof projectIndex === 'number') {
+      setCurrentProjectIndex(projectIndex);
+    }
+
+    setIsModalOpen(true);
+  };
   const closeModal = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       setIsModalOpen(false);
@@ -246,13 +272,10 @@ export default function Home() {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {PROJECTS.map((project, index) => (
+            {sortedProjects.map((project, index) => (
               <div
                 key={project.id}
-                onClick={() => {
-                  setCurrentProjectIndex(index);
-                  setIsModalOpen(true);
-                }}
+                onClick={() => openModal(index)}
                 className="p-6 bg-white border border-gray-100 rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] transition-all cursor-pointer flex flex-col gap-3 group border-l-4 border-l-transparent hover:border-l-emerald-500"
               >
                 <div className="flex items-center gap-3">
@@ -349,8 +372,13 @@ export default function Home() {
                       <div className="relative w-full h-[300px] sm:h-[450px] md:h-[600px]">
                         {/* Media Detection & Rendering */}
                         {(() => {
-                          const src = currentProject.images[currentImageIndex];
-                          const isVideo = src.match(/\.(mp4|webm|ogg|mov)$/i);
+                          const src = currentProject.images[currentImageIndex] ?? currentProject.images[0];
+
+                          if (!src) {
+                            return null;
+                          }
+
+                          const isVideo = /\.(mp4|webm|ogg|mov)$/i.test(src);
 
                           if (isVideo) {
                             return (
